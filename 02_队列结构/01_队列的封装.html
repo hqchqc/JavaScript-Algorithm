@@ -7,23 +7,32 @@
 </head>
 <body>
     <script>
+        // 封装队列类
         function Queue(){
+            // 属性
             this.items = []
+
+            // 1.将元素加入到队列中
             Queue.prototype.enqueue = function(element){
                 this.items.push(element)
             }
+            // 2.从队列中删除前端元素
             Queue.prototype.dequeue = function(){ 
-                this.items.shift()
+                return this.items.shift()
             }
+            // 3.查看前端的元素
             Queue.prototype.front = function(){
                 return this.items[0]
             }
+            // 4.查看队列中元素个数
             Queue.prototype.size = function(){
                 return this.items.length
             }
+            // 5.查看队列是否为空
             Queue.prototype.isEmpty = function(){ 
                 return this.items.length == 0
             }
+            // 6.转成字符串方法
             Queue.prototype.toString = function () { 
                 var result = ''
                 for(var i=0;i<this.items.length;i++){
@@ -33,20 +42,41 @@
             }
         }
 
-        var queue = new Queue()
-        queue.enqueue('🍎')
-        queue.enqueue('🍌')
-        queue.enqueue('🍑')
-        alert(queue)
+        // 测试
+        // var queue = new Queue()
+        // queue.enqueue('🍎')
+        // queue.enqueue('🍌')
+        // queue.enqueue('🍑')
+        // alert(queue)
 
-        queue.dequeue()
-        alert(queue)
-        queue.dequeue()
-        alert(queue)
+        // queue.dequeue()
+        // alert(queue)
+        // queue.dequeue()
+        // alert(queue)
 
-        alert(queue.size())
-        alert(queue.isEmpty())
-        alert(queue.toString())
+        // alert(queue.size())
+        // alert(queue.isEmpty())
+        // alert(queue.toString())
+
+        // 面试题
+        // 击鼓传花游戏
+        function PassGame(nameList,num){
+            var queue = new Queue()
+            for(var i=0;i<nameList.length;i++){
+                queue.enqueue(nameList[i])
+            }
+            while(queue.size() > 1){
+                for(var i=0;i<num-1;i++){
+                    queue.enqueue(queue.dequeue())
+                }
+                queue.dequeue()
+            }
+            var endName = queue.front()
+            return endName   
+        }
+        // 测试 击鼓传花
+        var fruits = ['🍎','🍌','🍉','🍋','🍇']
+        alert(PassGame(fruits,2))
     </script>
 </body>
 </html>
