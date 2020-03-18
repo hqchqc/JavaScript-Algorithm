@@ -38,19 +38,19 @@
                     }
                 }
             }
-            //删除方法
+            // 删除方法
             priorityQueue.prototype.dequeue = function(){
                 return this.items.shift()
             }
-            //返回队列第一个元素
+            // 返回队列第一个元素
             priorityQueue.prototype.front = function(){
                 return this.items[0]
             }
-            //判断队列是否为空
+            // 判断队列是否为空
             priorityQueue.prototype.isEmpty = function(){
                 return this.items.length == 0
             }
-            //判断队列长度
+            // 判断队列长度
             priorityQueue.prototype.size = function(){
                 return this.items.length
             }
