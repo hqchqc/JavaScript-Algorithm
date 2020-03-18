@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 封装优先级队列
+        function priorityQueue(){
+            // 在优先级队列中创建一个类：可以理解为内部类
+            function queueElement(element,priority){
+                this.element = element
+                this.priority = priority
+            }
+            // 封装属性
+            this.items = []
+
+            // 插入方法
+            priorityQueue.prototype.enqueue = function(element,priority){
+                // 创建 queueElement 类的对象
+                var item = new queueElement(element,priority)
+                // 判断队列是否为空 
+                if(this.items.length == 0){
+                    this.items.push(item)
+                }else{
+                    var flag = false
+                    for(var i=0; i<this.items.length; i++){
+                        if(item.priority < this.items[i].priority){
+                            this.items.splice(i,0,item)
+                            flag = true
+                            break
+                        }
+                    }
+                    if(!flag){
+                        this.items.push(item)
+                    }
+                }
+            }
+            //删除方法
+            priorityQueue.prototype.dequeue = function(){
+                return this.items.shift()
+            }
+            //返回队列第一个元素
+            priorityQueue.prototype.front = function(){
+                return this.items[0]
+            }
+            //判断队列是否为空
+            priorityQueue.prototype.isEmpty = function(){
+                return this.items.length == 0
+            }
+            //判断队列长度
+            priorityQueue.prototype.size = function(){
+                return this.items.length
+            }
+            // 转换为字符串
+            priorityQueue.prototype.toString = function(){
+                var result = ''
+                for(var i= 0; i<this.items.length; i++){
+                    result += this.items[i].element + '-' + this.items[i].priority + ' '
+                }
+                return result
+            }
+        }
+
+        var pq = new priorityQueue()
+        pq.enqueue('🍎',100)
+        pq.enqueue('🍌',50)
+        pq.enqueue('🍑',600)
+        pq.enqueue('🍉',2)
+        alert(pq)
+    </script>
+</body>
+</html>
