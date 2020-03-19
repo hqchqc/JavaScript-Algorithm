@@ -20,7 +20,7 @@
                 // 创建Node对象(新的节点)
                 var node = new Node(data)
 
-                // 判断是否添加的是第一个系欸但
+                // 判断是否添加的是第一个节点
                 if(this.length == 0){   // 是第一个节点
                     this.head = node
                 }else{                  // 不是第一个节点
@@ -44,13 +44,50 @@
                 return result
             }
 
+            // 3.insert方法
+            LinkedList.prototype.insert = function(data,position){
+                // 对position进行越界判断
+                if(position<0 || position>this.length){
+                    return false
+                }else{
+                    // 创建Node对象(待插入节点)
+                    var node = new Node(data)
+                    if(position == 0){
+                        node.next = this.head
+                        this.head = node
+                    }else{
+                        var current = this.head
+                        var previous = this.head
+                        // 老师的方法
+                        // while(position){
+                        //     previous = current
+                        //     current = current.next
+                        //     position--
+                        // }
+                        // 我的方法(因为循环次数是确定的所以可以使用for循环)
+                        for(var i=0; i<position; i++){
+                            previous = current
+                            current = current.next   
+                        }
+                        node.next = current
+                        previous.next = node                    
+                    }
+                    length++
+                    return true
+                }
+            }
+
         }
 
         // 测试代码
         var linkedList = new LinkedList()
+        // append方法
         linkedList.append('🍎')
         linkedList.append('🍌')
         linkedList.append('🍉')
+        alert(linkedList)
+        // insert方法
+        linkedList.insert('🍇',0)
         alert(linkedList)
     </script>
 </body>
