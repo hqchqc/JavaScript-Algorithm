@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function LinkedList(){
+            function Node(data){
+                this.data = data
+                this.next = null
+            }
+            this.head = null
+            this.length = 0
+
+            // 1.append方法
+            LinkedList.prototype.append = function(data){
+                // 创建Node对象(新的节点)
+                var node = new Node(data)
+
+                // 判断是否添加的是第一个系欸但
+                if(this.length == 0){   // 是第一个节点
+                    this.head = node
+                }else{                  // 不是第一个节点
+                    var current = this.head
+                    while(current.next){
+                        current = current.next
+                    }
+                    current.next = node
+                }
+                this.length++
+            }
+
+            // 2.toString方法
+            LinkedList.prototype.toString = function(){
+                var current = this.head
+                var result = ''
+                while(current){
+                    result += current.data + ' '
+                    current = current.next
+                }
+                return result
+            }
+
+        }
+
+        // 测试代码
+        var linkedList = new LinkedList()
+        linkedList.append('🍎')
+        linkedList.append('🍌')
+        linkedList.append('🍉')
+        alert(linkedList)
+    </script>
+</body>
+</html>
