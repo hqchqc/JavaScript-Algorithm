@@ -72,9 +72,91 @@
                         node.next = current
                         previous.next = node                    
                     }
-                    length++
+                    this.length++
                     return true
                 }
+            }
+
+            // 4.get方法
+            LinkedList.prototype.get = function(position){
+                // 越界处理
+                if(position<0 || position>=this.length){
+                    return null
+                }else{
+                    var current = this.head
+                    for(var i=0; i<position; i++){
+                        current = current.next
+                    }
+                    return current.data
+                } 
+            }
+
+            // 5.indexOf方法
+            LinkedList.prototype.indexOf = function(data){
+                var current = this.head
+                for(var index=0; index<this.length; index++){
+                    if(data == current.data){
+                        return index
+                    }
+                    current = current.next
+                }
+                // 找不到返回-1
+                return -1
+            }
+
+            // 6.update方法
+            LinkedList.prototype.update = function(newData,position){
+                //越界处理
+                if(position<0 || position>=this.length){
+                    return false
+                }else{
+                    var current = this.head
+                    for(var i=0; i<position; i++){
+                        current = current.next
+                    }
+                    current.data = newData
+                    return true
+                }
+            }
+
+            // 7.removeAt方法
+            LinkedList.prototype.removeAt = function(position){
+                // 越界处理
+                if(position<0 || position>=this.length){
+                    return null
+                }else{
+                    var current = this.head
+                    if(position == 0){
+                        this.head = this.head.next
+                    }else{                       
+                        var previous = this.head
+                        for(var i=0; i<position; i++){
+                            previous = current
+                            current = current.next
+                        }
+                        previous.next = current.next
+                    }                    
+                    this.length--
+                    return current.data
+                }
+            }
+
+            // 8.remove方法
+            LinkedList.prototype.remove = function(data){
+                // 1.先找到它的位置
+                var index = this.indexOf(data)
+                // 2.根据位置将它删除
+                return this.removeAt(index)
+            }
+
+            // 9.isEmpty方法
+            LinkedList.prototype.isEmpty = function(){
+                return this.length == 0
+            }
+
+            // 10.size方法
+            LinkedList.prototype.size = function () {  
+                return this.length
             }
 
         }
@@ -89,6 +171,27 @@
         // insert方法
         linkedList.insert('🍇',0)
         alert(linkedList)
+        // get方法
+        alert(linkedList.get(3))
+        // indexOf方法
+        alert(linkedList.indexOf('🍇'))
+        alert(linkedList.indexOf('🍉'))
+        alert(linkedList.indexOf('🍈'))
+        // update方法
+        linkedList.update('🐎',3)
+        alert(linkedList)
+        // removeAt方法
+        alert(linkedList.removeAt(0))
+        alert(linkedList)
+        // remove方法
+        alert(linkedList.remove('🍈'))
+        alert(linkedList.remove('🐎'))
+        alert(linkedList.remove('🍎'))
+        alert(linkedList)
+        // isEmpty方法
+        alert(linkedList.isEmpty())
+        // size方法
+        alert(linkedList.size())
     </script>
 </body>
 </html>
