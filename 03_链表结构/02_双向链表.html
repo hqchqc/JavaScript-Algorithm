@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function DoublyLinkedList(){
+            // 属性
+            this.length = 0
+            this.head = null
+            this.tail = null
+            // 内部类
+            function Node(data){
+                this.data = data
+                this.prev = null
+                this.next = null
+            }
+            // 1.append方法
+            DoublyLinkedList.prototype.append = function(data){
+                var node = new Node(data)
+                // 判断是否为第一个节点
+                if(this.length == 0){
+                    this.head = node
+                    this.tail = node
+                }else{
+                    node.prev = this.tail
+                    this.tail.next = node
+                    this.tail = node
+                }
+                // 不要忘记长度加一
+                this.length++
+            }
+
+            // 2.toString方法
+            DoublyLinkedList.prototype.toString = function(){
+                var result = ''
+                var current = this.head
+                while(current){
+                    result += current.data
+                    current = current.next
+                }
+                return result
+            }
+        }
+
+        // 测试代码
+        var doublyLinkedList = new DoublyLinkedList
+        // 1. append方法
+        doublyLinkedList.append('🦊')
+        doublyLinkedList.append('🐕')
+        doublyLinkedList.append('🐱')
+        alert(doublyLinkedList)
+        console.log(doublyLinkedList)
+    </script>
+</body>
+</html>
