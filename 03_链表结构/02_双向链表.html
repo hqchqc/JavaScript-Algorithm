@@ -36,14 +36,203 @@
 
             // 2.toString方法
             DoublyLinkedList.prototype.toString = function(){
+                return this.forwardString()
+            }
+            // 2.1 forwardString方法
+            DoublyLinkedList.prototype.forwardString = function(){
                 var result = ''
                 var current = this.head
                 while(current){
-                    result += current.data
+                    result += current.data + ' '
                     current = current.next
                 }
                 return result
             }
+            // 2.2 backwardString方法
+            DoublyLinkedList.prototype.backwardString = function(){
+                var result = ''
+                var current = this.tail
+                while(current){
+                    result += current.data + ' '
+                    current = current.prev
+                }
+                return result
+            }
+
+            // 3.insert方法 先处理node的前一个和后一个 再处理插入位置的前一个和后一个
+            DoublyLinkedList.prototype.insert = function(data,position){
+                // 越界处理
+                if(position < 0 || position > this.length){
+                    return false
+                }else{
+                    // 因为此时多了一个tail指针，所以我们必须判断插入时是否有其他元素
+                    var node = new Node(data)
+                    // 1. 插入时没有任何元素
+                    if(this.length == 0){
+                        this.head = node
+                        this.tail = node
+                    }else{
+                        // 2. 插入时有元素
+                        if(position == 0){
+                            // 2.1 插入时有元素 插入位置为第一个元素时
+                            node.next = this.head
+                            this.head.prev = node
+                            this.head = node
+                        }else if(position == this.length){
+                            // 2.2 插入时有元素,插入位置为最后一个元素时
+                            node.prev = this.tail
+                            this.tail.next = node
+                            this.tail = node
+                        }else{
+                            // 2.3 插入时有元素，插入位置为其它时
+                            var current = this.head
+                            for(var i=0; i<position; i++){
+                                current = current.next
+                            }
+                            node.prev = current.prev
+                            node.next = current
+                            current.prev.next = node
+                            current.prev = node
+                        }
+                    }
+                    this.length++
+                    return true
+                }  
+            }
+
+            // 4.get方法
+            DoublyLinkedList.prototype.get = function(position){
+                // 越界处理
+                if(position < 0 || position >= this.length){
+                    return false
+                }else{
+                    // 如果正向找那么效率不是很高
+                    // 判断 position 与长度
+                    if(position <= this.length/2){
+                        // 正向遍历
+                        var current = this.head
+                        for(var i=0; i<position; i++){
+                            current = current.next
+                        }
+                        return current.data
+                    }else{
+                        // 反向遍历
+                        var current = this.tail
+                        for(var i=this.length-1; i>position; i--){
+                            current = current.prev
+                        }
+                        return current.data
+                    }  
+                }
+            }
+
+            // 5.indexOf方法
+            DoublyLinkedList.prototype.indexOf = function(data){
+                var current = this.head
+                for(var i=0; i<this.length; i++){
+                    if(current.data == data){
+                        return i
+                    }
+                    current = current.next
+                }
+                return -1
+            }
+
+            // 6.update方法
+            DoublyLinkedList.prototype.update = function(data,position){
+                // 越界处理
+                if(position < 0 || position >= this.length){
+                    return false
+                }else{
+                    // 这里由于没有修改指针 只需修改值即可 所以不用区分情况
+                    var node = new Node(data)
+                    var current = this.head
+                    // 两种方式遍历
+                    if(position <= this.length/2){
+                        // 正向遍历
+                        var current = this.head
+                        for(var i=0; i<position; i++){
+                            current = current.next
+                        }
+                        current.data = node.data 
+
+                    }else{
+                        // 反向遍历
+                        var current = this.tail
+                        for(var i=this.length-1; i>position; i--){
+                            current = current.prev
+                        }
+                        current.data = node.data 
+                    }                          
+                    return true
+                }
+            }
+
+            // 7.removeAt方法
+            DoublyLinkedList.prototype.removeAt = function(position){
+                // 越界
+                if(position<0 || position>=this.length){
+                    return false
+                }else{
+                    var current = this.head
+                    // 移除掉肯定要修改指针 所以要分情况    
+                    if(this.length == 1){
+                        // 如果里面就只有一个元素
+                        this.head = null
+                        this.tail = null
+                    }else{
+                        // 里面有很多元素的情况
+                        if(position == 0){
+                            // 删除第一个元素
+                            this.head.next.prev = null
+                            this.head = this.head.next
+                        }else if(position == this.length-1){
+                            // 删除最后一个元素
+                            this.tail.prev.next = null
+                            this.tail = this.tail.prev
+                            current = this.tail 
+                        }else{          
+                            // 删除中间元素          
+                            for(var i=0; i<position; i++){
+                                current = current.next
+                            }
+                            current.prev.next = current.next
+                            current.next.prev = current.prev 
+                        }
+                    }   
+                    this.length--
+                    return current.data                   
+                }
+            }
+
+            // 8.remove方法
+            DoublyLinkedList.prototype.remove = function(data){
+                // 1.先找到此元素的下标值
+                var removeDate = this.indexOf(data)
+                // 2.通过下标来删除此元素
+                this.removeAt(removeDate)
+            }
+
+            // 9.size方法
+            DoublyLinkedList.prototype.size = function(){
+                return this.length
+            }
+
+            // 10.isEmpty方法
+            DoublyLinkedList.prototype.isEmpty = function () {  
+                return this.length == 0
+            }
+
+            // 11.获取链表的第一个元素
+            DoublyLinkedList.prototype.getHead = function(){
+                return this.head.data
+            }
+
+            // 12.获取链表的最后一个元素
+            DoublyLinkedList.prototype.getTail = function () {  
+                return this.tail.data
+            }
+            
         }
 
         // 测试代码
@@ -52,8 +241,46 @@
         doublyLinkedList.append('🦊')
         doublyLinkedList.append('🐕')
         doublyLinkedList.append('🐱')
+        // alert(doublyLinkedList)
+        // // 2. toString方法
+        // alert(doublyLinkedList.forwardString())
+        // // 3. backwardString方法
+        // alert(doublyLinkedList.backwardString())
+        // 3. insert方法
+        doublyLinkedList.insert('🐅',0)
         alert(doublyLinkedList)
-        console.log(doublyLinkedList)
+        doublyLinkedList.insert('🦁',4)
+        alert(doublyLinkedList)
+        // 4. get方法
+        alert(doublyLinkedList.get(0))
+        alert(doublyLinkedList.get(4))
+        // 5. indexOf方法
+        alert(doublyLinkedList.indexOf('🦁'))
+        alert(doublyLinkedList.indexOf('🐅'))
+        alert(doublyLinkedList.indexOf('🍎'))
+        // 6.update方法
+        doublyLinkedList.update('🐀',0)
+        alert(doublyLinkedList)
+        doublyLinkedList.update('🐍',4)
+        alert(doublyLinkedList)
+        // 7.removeAt方法
+        doublyLinkedList.removeAt(0)
+        alert(doublyLinkedList)
+        doublyLinkedList.removeAt(1)
+        alert(doublyLinkedList)
+        doublyLinkedList.removeAt(2)
+        alert(doublyLinkedList)
+        // 8.remove方法
+        doublyLinkedList.remove('🦊')
+        alert(doublyLinkedList)
+        // 9.isEmpty方法
+        alert(doublyLinkedList.isEmpty())
+        // 10.size方法
+        alert(doublyLinkedList.size())
+        // 11.getHead方法
+        alert(doublyLinkedList.getHead())
+        // 12.getTail方法
+        alert(doublyLinkedList.getTail())
     </script>
 </body>
 </html>
