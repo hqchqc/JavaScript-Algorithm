@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 封装集合类
+        function Set(){
+            this.items = {}
+
+            // 1.add方法
+            Set.prototype.add = function (value) {  
+                if(this.has(value)){
+                    return false
+                }
+                this.items[value] = value
+                return true
+            }
+
+            // 2.has方法
+            Set.prototype.has = function (value) {  
+                return this.items.hasOwnProperty(value)
+            }
+
+            // 3.remove方法
+            Set.prototype.remove = function (value) {  
+                if(!this.has(value)){
+                    return false
+                }else{
+                    delete this.items[value]
+                    return true
+                }
+            }
+
+            // 4.clear方法
+            Set.prototype.clear = function(){
+                this.items = {}
+            }
+
+            // 5.size方法
+            Set.prototype.size = function(){
+                return Object.keys(this.items).length
+            }
+
+            // 6.values方法
+            Set.prototype.values = function(){
+                return Object.keys(this.items)
+            }    
+        }
+
+        var set = new Set()
+    </script>
+</body>
+</html>
