@@ -12,7 +12,8 @@
             this.items = {}
 
             // 1.add方法
-            Set.prototype.add = function (value) {  
+            Set.prototype.add = function (value) { 
+                // 先判断是否有这个元素 
                 if(this.has(value)){
                     return false
                 }
@@ -48,10 +49,110 @@
             // 6.values方法
             Set.prototype.values = function(){
                 return Object.keys(this.items)
-            }    
+            } 
+
+            // 集合之间的操作
+            // 1.并集
+            Set.prototype.union = function(otherSet){
+                // this: 集合A
+                // otherSet: 集合B
+                // 1.创建一个存放结果的集合
+                var unionSet = new Set()
+                // 2.把集合A的元素转换为数组
+                var aSet = this.values()
+                // 3.遍历集合A 把集合A中的元素放入集合中
+                for(var i=0; i<aSet.length; i++){
+                    unionSet.add(aSet[i])
+                } 
+                // 4.把集合B中的元素放入集合中 由于add方法增加了重复元素的判断 故这里直接加入即可
+                var bSet = otherSet.values()
+                for(var i=0; i<bSet.length; i++){
+                    unionSet.add(bSet[i])
+                }
+                return unionSet  
+            }   
+
+            // 2.交集
+            Set.prototype.intersection = function(otherSet){
+                // 1.创建一个保存结果的集合
+                var intersectionSet = new Set()
+                // 2.把集合A转换为数组
+                var aSet = this.values()
+                // 3.遍历集合A
+                for(var i=0; i<aSet.length; i++){
+                    // 4.判断集合B中是否有集合A中的元素
+                    if(otherSet.has(aSet[i])){
+                        // 5.如果有就将此元素加入到结果集合中
+                        intersectionSet.add(aSet[i])
+                    }
+                }
+                return intersectionSet
+            }
+
+            // 3.差集
+            Set.prototype.difference = function(otherSet){
+                var differenceSet = new Set()
+                var aSet = this.values()
+                for(var i=0; i<aSet.length; i++){
+                    if(!otherSet.has(aSet[i])){
+                        differenceSet.add(aSet[i])
+                    }
+                }
+                return differenceSet
+            }
+
+            // 4.子集
+            Set.prototype.subset = function(otherSet){
+                var subSet = new Set()
+                var aSet = this.values()
+                for(var i=0; i<aSet.length; i++){
+                    if(!otherSet.has(aSet[i])){
+                        return false 
+                    }
+                }
+                return true
+            }
         }
 
-        var set = new Set()
+        // 测试代码
+        // var set = new Set()
+        // // 1.add方法
+        // set.add('🍎')
+        // set.add('🍌')
+        // set.add('🍇')
+        // alert(set.values())
+        // // 2.has方法
+        // alert(set.has('🍉'))
+        // alert(set.has('🍇'))
+        // // 3.remove方法
+        // set.remove('🍌')
+        // alert(set.values())
+        // // 4.size方法
+        // alert(set.size())
+        // // 5.clear方法
+        // set.clear()
+        // alert(set.values())
+
+        // 集合之间的方法
+        // 1.并集
+        var setA = new Set()
+        setA.add('🚓')
+        setA.add('🚑')
+        setA.add('🛵')
+        var setB = new Set()
+        setB.add('🚆')
+        setB.add('🚑')
+        setB.add('🛵')
+        var unionSet = setA.union(setB)
+        alert(unionSet.values())
+        // 2.交集
+        var intersectionSet = setA.intersection(setB)
+        alert(intersectionSet.values())
+        // 3.差集
+        var differenceSet = setA.difference(setB)
+        alert(differenceSet.values())
+        // 4.子集
+        alert(setA.subset(setB))
     </script>
 </body>
 </html>
