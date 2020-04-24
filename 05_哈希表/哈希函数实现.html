@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 设计哈希函数
+        // 1. 把字符串转换为一个很大的数字
+        // 2. 将很大的数字压缩到数组范围之中
+        function hash(str,size){
+            // 定义hashCode值
+            let hashCode = 0;
+            // 霍纳算法 计算 hashCode的值
+            for(let i=0; i<str.length; i++){
+                // 这里一般的哈希函数都采用的 37 31 这样的质数
+                hashCode = 37 * hashCode + str.charCodeAt(i)
+            }
+            // 取余操作
+            hashCode = hashCode % size
+            
+            return hashCode
+        }
+
+        alert(hash('nba',7))
+    </script>
+</body>
+</html>

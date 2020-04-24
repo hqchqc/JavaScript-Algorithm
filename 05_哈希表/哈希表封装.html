@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function hashTable(){
+            let storage = []; // 作为我们的数组(大的)
+            let limit = 7; // 标记数组中一共可以放置多少元素 
+            let count = 0; // 表示当前已经存放了多少数据 用于 扩容 
+
+            hashTable.prototype.hashCode = function(str,size){
+                let hashCode = 0;
+                for(let i=0; i<str.length; i++){
+                    // 这里一般的哈希函数都采用的 37 31 这样的质数
+                    hashCode = 37 * hashCode + str.charCodeAt(i)
+                };
+                hashCode = hashCode % size;
+                return hashCode;
+            }
+
+            hashTable.prototype.put = function(key,value){
+                // 1. 根据key值获取对应的下标值
+                let index = this.hashCode(key,this.limit);
+                // 2. 根据下标值取出对应的桶
+                let bucket = this.storage[index];
+                // 3. 判断桶是否存在
+                if(bucket == null){
+                    let bucket = [];
+                    this.storage[index] = bucket;
+                }
+                // 4. 判断是修改数据还是添加数据
+                for(let i=0; i<bucket.length; i++){
+                    let item = bucket[i]
+                    if(item[0] == key){
+                        item[1] = value
+                        return
+                    }
+                }
+                // 5. 添加数据
+                bucket.push([key,value])
+            }
+        }
+    </script>
+</body>
+</html>
