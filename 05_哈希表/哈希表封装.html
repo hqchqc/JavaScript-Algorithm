@@ -22,6 +22,7 @@
                 return hashCode;
             }
 
+            // 修改 & 插入
             hashTable.prototype.put = function(key,value){
                 // 1. 根据key值获取对应的下标值
                 let index = this.hashCode(key,this.limit);
@@ -41,7 +42,52 @@
                     }
                 }
                 // 5. 添加数据
-                bucket.push([key,value])
+                bucket.push([key,value]);
+                this.count++;
+            }
+
+            // 获得
+            hashTable.prototype.get = function(key){
+                // 1.根据key获取index
+                let index = this.hashCode(key,this.limit);
+                // 2.根据index获取桶
+                let bucket = this.storage[index];
+                // 3.判断桶是否为空
+                if(bucket == null){
+                    return null
+                }
+                // 4.线性查找
+                for(let i=0; i<bucket.length; i++){
+                    let item = bucket[i];
+                    if(item[0] == key){
+                        return item[1]
+                    }
+                }
+                // 5。没找到
+                return null
+            }
+
+            // 删除
+            hashTable.prototype.remove = function(key){
+                // 1.根据key获取index
+                let index = this.hashCode(key)
+                // 2.根据index获取对应的桶
+                let bucket = this.storage[index]
+                // 3.判断桶是否为空
+                if(bucket == null){
+                    return null
+                } 
+                // 4.线性查找
+                for(let i=0; i<bucket.length; i++){
+                    let item = bucket[i];
+                    if(item[0] == key){
+                        bucket.splice(i,1);
+                        this.count--;
+                        return item[1];
+                    }
+                }
+                // 5.没找到
+                return null;
             }
         }
     </script>
