@@ -8,9 +8,9 @@
 <body>
     <script>
         function hashTable(){
-            let storage = []; // 作为我们的数组(大的)
-            let limit = 7; // 标记数组中一共可以放置多少元素 
-            let count = 0; // 表示当前已经存放了多少数据 用于 扩容 
+            this.storage = []; // 作为我们的数组(大的)
+            this.limit = 7; // 标记数组中一共可以放置多少元素 
+            this.count = 0; // 表示当前已经存放了多少数据 用于 扩容 
 
             hashTable.prototype.hashCode = function(str,size){
                 let hashCode = 0;
@@ -19,7 +19,7 @@
                     hashCode = 37 * hashCode + str.charCodeAt(i)
                 };
                 hashCode = hashCode % size;
-                return hashCode;
+                return hashCode
             }
 
             // 修改 & 插入
@@ -30,9 +30,10 @@
                 let bucket = this.storage[index];
                 // 3. 判断桶是否存在
                 if(bucket == null){
-                    let bucket = [];
+                    bucket = [];
                     this.storage[index] = bucket;
                 }
+
                 // 4. 判断是修改数据还是添加数据
                 for(let i=0; i<bucket.length; i++){
                     let item = bucket[i]
@@ -44,6 +45,12 @@
                 // 5. 添加数据
                 bucket.push([key,value]);
                 this.count++;
+
+                // 6.判断是否需要扩容
+                if(this.count > this.limit * 0.75){
+                    let newSize = this.getPrime(this.limit * 2)
+                    this.resize(newSize)
+                }
             }
 
             // 获得
@@ -70,7 +77,7 @@
             // 删除
             hashTable.prototype.remove = function(key){
                 // 1.根据key获取index
-                let index = this.hashCode(key)
+                let index = this.hashCode(key,this.limit)
                 // 2.根据index获取对应的桶
                 let bucket = this.storage[index]
                 // 3.判断桶是否为空
@@ -83,13 +90,88 @@
                     if(item[0] == key){
                         bucket.splice(i,1);
                         this.count--;
+
+                        // 6.判断是否需要缩容
+                        if(this.limit > 7 && this.count < this.limit * 0.25){
+                            let newSize = this.getPrime(Math.floor(this.limit / 2))
+                            this.resize(newSize)
+                        }
+
                         return item[1];
                     }
                 }
                 // 5.没找到
                 return null;
             }
-        }
+
+            // 其他方法
+            // 判断是否为空
+            hashTable.prototype.isEmpty = function(){  
+                return this.count == 0
+            }
+            // 判断哈希表中元素的个数
+            hashTable.prototype.size = function(){  
+                return this.count
+            }
+
+            // 扩容 / 缩容
+            hashTable.prototype.resize = function(newLimit){
+                // 1.保存旧的数组内容
+                let oldStorage = this.storage;
+                // 2.重置所有的属性
+                this.storage = [];
+                this.count = 0;
+                this.limit = newLimit;
+                // 3.遍历所有的桶 放到新的数组中
+                for(let i=0; i<oldStorage.length; i++){
+                    // 3.1取出所有的bucket
+                    let bucket = oldStorage[i];
+                    // 3.2判断bucket是否为null
+                    if(bucket == null){
+                        continue
+                    }
+                    // 3.3bucket中有数据 取出数据重新插入
+                    for(let j=0; j<bucket.length; j++){
+                        let item = bucket[j];
+                        this.put(item[0],item[1])
+                    }
+                }
+            }
+
+            // 判断质数
+            hashTable.prototype.isPrime = function(num){  
+                let tmp = parseInt(Math.sqrt(num))
+                for(let i=2; i<=tmp; i++){
+                    if(num % i == 0){
+                        return false
+                    }
+                }
+                return true
+            }
+
+            // 容量质数
+            hashTable.prototype.getPrime = function(num){  
+                while(!this.isPrime(num)){
+                    num++
+                }
+                return num
+            }
+        };
+
+        // 测试
+        let ht = new hashTable();
+
+        ht.put('abc','111');
+        alert(ht.get('abc'));
+
+        ht.put('abc','456');
+        alert(ht.get('abc'));
+
+        ht.remove('abc');
+        alert(ht.get('abc'));
+
+        alert(ht.isEmpty())
+
     </script>
 </body>
 </html>
