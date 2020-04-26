@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        class Node{
+            constructor(key){
+                this.key = key;
+                this.left = null;
+                this.right = null;
+            }
+        };
+        
+        class BinarySearchTree{
+            constructor(){
+                this.root = null
+            }
+
+            // 插入方法
+            insert(key){
+                // 根据key创建一个Node节点
+                const newNode = new Node(key);
+                // 如果原来是一颗空树
+                if(this.root === null){
+                    this.root = newNode;
+                }else{
+                    this.insertNode(this.root,newNode);
+                }
+            }
+
+            // 递归插入 
+            // node: 往谁上面插
+            // newNode: 插入节点
+            insertNode(node,newNode){
+                if(newNode.key > node.key){
+                    if(node.right === null){
+                        node.right = newNode
+                    }else{
+                        this.insertNode(node.right,newNode)
+                    }
+                }else{
+                    if(node.left === null){
+                        node.left = newNode
+                    }else{
+                        this.insertNode(node.left,newNode)
+                    }
+                }
+            }
+
+            // 先序遍历
+            preOrderTraverse(){
+                this.preOrderTraverseNode(this.root);
+            }
+
+            // 递归 先序遍历
+            preOrderTraverseNode(node){
+                if(node === null) return;
+
+                console.log(node.key);
+                this.preOrderTraverseNode(node.left);
+                this.preOrderTraverseNode(node.right);
+            }
+
+            // 中序遍历
+            inOrderTraverse(){
+                this.inOrderTraverseNode(this.root)
+            }
+
+            // 递归 中序遍历
+            inOrderTraverseNode(node){
+                if(node === null) return;
+
+                this.inOrderTraverseNode(node.left);
+                console.log(node.key);
+                this.inOrderTraverseNode(node.right);
+            }
+
+            // 后序遍历
+            postOrderTraverse(){
+                this.postOrderTraverseNode(this.root)
+            }
+
+            // 递归  后序遍历
+            postOrderTraverseNode(node){
+                if(node === null) return;
+
+                this.postOrderTraverseNode(node.left)
+                this.postOrderTraverseNode(node.right)
+                console.log(node.key)
+            }
+
+            // 最小值
+            getMin(){
+                let node = this.root;
+                while(node.left !== null){
+                    node = node.left;
+                }
+                return node.key
+            }
+            // 最大值
+            getMax(){
+                let node = this.root;
+                while(node.right !== null){
+                    node = node.right;
+                }
+                return node.key
+            }
+
+            // 查找 找到返回true
+            search(key){
+                return this.searchNode(this.root,key)
+            }
+
+            // 递归 查找
+            searchNode(node,key){
+                if(node === null) return false;
+
+                if(node.key < key){
+                    return this.searchNode(node.right,key);
+                }else if(node.key > key){
+                    return this.searchNode(node.left,key);
+                }else{
+                    return true;
+                }
+            }
+
+            // 不用递归 用循环的查找
+            searchWhile(key){
+                let node = this.root;
+                while(node !== null){
+                    if(node.key > key){
+                        node = node.left;
+                    }else if(node.key < key){
+                        node = node.right;
+                    }else{
+                        return true
+                    }
+                }
+                return false
+            }
+
+            // 删除操作
+            remove(key){
+                let current = this.root;
+                let parent = null;
+                let isLeft = false; // 判断此时的current在左边还是右边
+                // 1. 获取被删除元素
+                while(current.key !== key){
+                    parent = current;
+                    if(current.key > key){
+                        isLeft = true;
+                        current = current.left;
+                    }else{
+                        isLeft = false;                       
+                        current = current.right;
+                    }
+                }
+                if(current === null) return false
+
+                // 2. 分情况删除
+                //  2.1 被删除元素为叶子节点
+                if(current.left == null && current.right == null){
+                    // 2.1.1 如果只有一个根节点
+                    if(current === this.root){
+                        this.root = null
+                    }else{
+                        // 2.1.2 叶子节点
+                        if(isLeft){
+                            parent.left = null
+                        }else{
+                            parent.right = null
+                        }
+                    }
+                 // 2.2 被删除元素有一个子节点 -> 此节点是否为根节点 -> 此节点所处的位置是在父节点的左边还是右边
+                }else if(current.right == null){    // 2.2.1 只有左子节点
+                    if(current == this.root){   // 2.2.1.1 为根节点
+                        this.root = current.left
+                    }else if(isLeft){   // 2.2.1.2 不为根节点
+                       if(current == this.root){
+                           this.root = current
+                       }else if(isLeft){
+                           parent.left = current.left
+                       }else{
+                           parent.right = current.left
+                       }
+                    }       
+                }else if(current.left == null){     // 2.2.2 只有右子节点
+                    if(current == this.root){
+                        this.root = current.right;
+                    }else if(isLeft){
+                        parent.left = current.right;
+                    }else{
+                        parent.right = current.right;
+                    }
+                } 
+
+                return true  
+            }
+        }
+
+        // 测试代码
+        let bst = new BinarySearchTree()
+        bst.insert(11)
+        bst.insert(7)
+        bst.insert(15)
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(9)
+        bst.insert(8)
+        bst.insert(10)
+        bst.insert(13)
+        bst.insert(12)
+        bst.insert(14)
+        bst.insert(20)
+        bst.insert(18)
+        bst.insert(25)
+        bst.insert(6)
+
+        console.log(bst)
+
+        // 先序遍历
+        bst.preOrderTraverse()
+
+        console.log('----------')
+
+        // 中序遍历
+        bst.inOrderTraverse()
+
+        console.log('----------')
+
+        // 后序遍历
+        bst.postOrderTraverse()
+
+        console.log('----------')
+
+        // 最大值 / 最小值
+        console.log(bst.getMax())
+        console.log(bst.getMin())
+
+        // 查找
+        console.log(bst.search(24))
+        console.log(bst.search(25))
+        console.log(bst.searchWhile(24))
+        console.log(bst.searchWhile(25))
+    </script>
+</body>
+</html>
