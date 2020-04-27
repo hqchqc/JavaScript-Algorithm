@@ -179,26 +179,57 @@
                 }else if(current.right == null){    // 2.2.1 只有左子节点
                     if(current == this.root){   // 2.2.1.1 为根节点
                         this.root = current.left
-                    }else if(isLeft){   // 2.2.1.2 不为根节点
-                       if(current == this.root){
-                           this.root = current
-                       }else if(isLeft){
-                           parent.left = current.left
-                       }else{
-                           parent.right = current.left
-                       }
+                    }else{   // 2.2.1.2 不为根节点
+                        if(isLeft){
+                            parent.left = current.left
+                        }else{
+                            parent.right = current.left
+                        }
                     }       
                 }else if(current.left == null){     // 2.2.2 只有右子节点
                     if(current == this.root){
                         this.root = current.right;
-                    }else if(isLeft){
-                        parent.left = current.right;
                     }else{
-                        parent.right = current.right;
+                        if(isLeft){
+                            parent.left = current.right
+                        }else{
+                            parent.right = current.right
+                        }
                     }
+                }else{  // 3. 被删除元素有两个子节点
+                    let afterNode = this.getSuccessor(current);
+                    if(current == this.root){
+                        this.root = afterNode;
+                    }else if(isLeft){
+                        parent.left = afterNode;
+                    }else{
+                        parent.right = afterNode;
+                    }
+                    afterNode.left = current.left;
                 } 
 
                 return true  
+            }
+
+            // 获得 后继 节点
+            getSuccessor(key){
+                let successor = key;
+                let current = key.right;
+                let successorParent = key;
+
+                while(current !== null){
+                    successorParent = successor;
+                    successor = current;
+                    current = current.left;
+                }
+
+                // 判断寻找的后继节点是否就是删除节点的right节点 
+                if(key.right !== successor){
+                    successorParent.left = successor.right
+                    successor.right = key.right;
+                }
+
+                return successor
             }
         }
 
