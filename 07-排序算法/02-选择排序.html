@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function selectSort(arr){
+            let length = arr.length
+            for(let j=0; j<length-1; j++){
+                let minIndex = j
+                for(let i=minIndex+1; i<length;i++){
+                    if(arr[minIndex] > arr[i]){
+                        minIndex = i
+                    }
+                }
+                [arr[minIndex],arr[j]] = [arr[j],arr[minIndex]]
+            }
+            
+        }
+        let arr = [20,3,2,25,1]
+        selectSort(arr)
+        alert(arr)
+        // 选择排序的平均时间复杂度为 O(n²) ，最坏时间复杂度为 O(n²) ，空间复杂度为 O(1) ，不是稳定排序 但是执行效率比冒泡排序要好
+    </script>
+</body>
+</html>
