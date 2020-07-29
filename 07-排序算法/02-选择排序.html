@@ -9,6 +9,9 @@
     <script>
         function selectSort(arr){
             let length = arr.length
+            if(!Array.isArray(arr) || length <= 0){
+                return 
+            }
             for(let j=0; j<length-1; j++){
                 let minIndex = j
                 for(let i=minIndex+1; i<length;i++){
