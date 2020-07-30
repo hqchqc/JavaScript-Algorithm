@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function shellSort(arr){
+            if(!Array.isArray(arr) || arr.length <= 1) return
+
+            let length = arr.length, gap = Math.floor(arr.length / 2)
+
+            // 当 gap 值小于 1 时 代表循环结束
+            // gap 值为 1 时 排序完成
+            while(gap >= 1){
+                // 插入排序类似
+                for(let i=gap; i<length; i++){
+                    let j=i , tmp = arr[i]
+                    while(j-gap >= 0 && tmp < arr[j-gap]){
+                        arr[j] = arr[j-gap]
+                        j -= gap
+                    }
+                    arr[j] = tmp
+                }
+                gap = Math.floor(gap / 2)
+            }
+        }
+
+        let arr = [81,94,11,96,12,35,17,95,28,58,41,75,15]
+        shellSort(arr)
+        alert(arr)
+        // 希尔排序的平均时间复杂度为 O(nlogn) ，最坏时间复杂度为 O(n^s) ，空间复杂度为 O(1) ，不是稳定排序。
+    </script>
+</body>
+</html>
