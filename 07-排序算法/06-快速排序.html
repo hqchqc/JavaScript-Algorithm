@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function partition(start,end){
+            let middle = Math.floor((start + end) / 2)
+            if(arr[start] > arr[middle]){
+                [arr[start] , arr[middle]] = [arr[middle] , arr[start]]
+            }
+            if(arr[middle] > arr[end]){
+                [arr[middle] , arr[end]] = [arr[end] , arr[middle]]
+            }
+            if(arr[start] > arr[end]){
+                [arr[start] , arr[end]] = [arr[end] , arr[start]]
+            }
+            [arr[middle] , arr[end - 1]] = [arr[end - 1] , arr[middle]]
+            console.log(arr[end-1])
+            return arr[end - 1]
+        }
+        function quickSortRec(start,end){
+            if(end <= start) return 
+            let partitions = partition(start , end),
+                i = start,
+                j = end - 1
+            while(true){
+                while(arr[++i] < partitions){}
+                while(arr[--j] > partitions){}
+                if( i < j){
+                    [arr[i],arr[j]] = [arr[j],arr[i]]
+                }else{
+                    break
+                }
+            }
+            [arr[i],arr[end-1]] = [arr[end-1],arr[i]]
+            quickSortRec(start,i-1)
+            quickSortRec(i+1,end)
+        }
+        function quickSort(arr){
+            quickSortRec(0,arr.length-1)
+        }
+
+        let arr = [24,3,6,10,9,8,56,100]
+        quickSort(arr)
+        console.log(arr)
+        // 快速排序的平均时间复杂度为 O(nlogn) ，最坏时间复杂度为 O(n²) ，空间复杂度为 O(logn) ，不是稳定排序。
+    </script>
+</body>
+</html>

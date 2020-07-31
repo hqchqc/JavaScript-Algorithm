@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function mergeSort(arr){
+            if(!Array.isArray(arr) || arr.length == 0) return
+            if(arr.length == 1){ 
+                return arr
+            }
+            let mid = Math.floor(arr.length / 2),
+                leftArr = arr.slice(0 , mid),
+                rightArr = arr.slice(mid , arr.length)
+               
+            return merge(mergeSort(leftArr),mergeSort(rightArr))
+        }
+
+        function merge(left,right){
+            let result = [],
+                leftLength = left.length,
+                rightLength = right.length,
+                lf = 0, 
+                lr = 0
+            while(lf < leftLength && lr < rightLength){
+                if(left[lf] > right[lr]){
+                    result.push(right[lr++])
+                }else{
+                    result.push(left[lf++])
+                    //lf++
+                }
+            }
+            while(lf < leftLength){
+                result.push(left[lf])
+                lf++
+            }
+            while(lr < rightLength){
+                result.push(right[lr])
+                lr++
+            }
+            console.log(result)
+            return result
+        }
+
+        let arr = [4,5,32,16,24,18,100]
+        alert(mergeSort(arr))
+        // 归并排序的平均时间复杂度为 O(nlogn) ，最坏时间复杂度为 O(nlogn) ，空间复杂度为 O(n) ，是稳定排序
+    </script>
+</body>
+</html>
