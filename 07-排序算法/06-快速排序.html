@@ -19,7 +19,6 @@
                 [arr[start] , arr[end]] = [arr[end] , arr[start]]
             }
             [arr[middle] , arr[end - 1]] = [arr[end - 1] , arr[middle]]
-            console.log(arr[end-1])
             return arr[end - 1]
         }
         function quickSortRec(start,end){
@@ -27,7 +26,7 @@
             let partitions = partition(start , end),
                 i = start,
                 j = end - 1
-            while(true){
+            while(i<j){
                 while(arr[++i] < partitions){}
                 while(arr[--j] > partitions){}
                 if( i < j){
@@ -46,7 +45,7 @@
 
         let arr = [24,3,6,10,9,8,56,100]
         quickSort(arr)
-        console.log(arr)
+        alert(arr)
         // 快速排序的平均时间复杂度为 O(nlogn) ，最坏时间复杂度为 O(n²) ，空间复杂度为 O(logn) ，不是稳定排序。
     </script>
 </body>
