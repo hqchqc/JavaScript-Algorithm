@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function bubbleSort(arr){
+            if(!Array.isArray(arr) && arr.length <= 1) return
+            for(let j = arr.length - 1; j > 0; j--){
+                for(let i = 0; i < j; i++){
+                    if(arr[i] > arr[i+1]){
+                        [arr[i] , arr[i+1]] = [arr[i+1] , arr[i]] 
+                    }
+                }
+            }
+        }
+
+        function betterBubbleSort(arr){
+            if(!Array.isArray(arr) || arr.length <= 1) return
+            let lastIndex = arr.length - 1
+            while(lastIndex > 0){
+                let flag = true, j = lastIndex
+                for(let i = 0; i < j; i++){
+                    if(arr[i] > arr[i+1]){
+                        [arr[i],arr[i+1]] = [arr[i+1],arr[i]]
+                        flag = false
+                        lastIndex = j                    }
+                }
+                if(flag) return
+            }
+        }
+
+        function selectSort(arr){
+            if(!Array.isArray(arr) || arr.length <= 1) return
+            for(let i = 0; i < arr.length; i++){
+                let minIndex = i
+                for(let j = minIndex + 1; j < arr.length; j++){
+                    if(arr[minIndex] > arr[j]){
+                        minIndex = j
+                    }
+                }
+                [arr[minIndex],arr[i]] = [arr[i],arr[minIndex]]
+            }
+        }
+
+        function insertSort(arr){
+            if(!Array.isArray(arr) || arr.length <= 1) return
+            for(let i = 0; i < arr.length; i++){
+                let tmp = arr[i] , j = i
+                while(j - 1 >= 0 && tmp < arr[j - 1]){
+                    arr[j] = arr[j-1]
+                    j--
+                }
+                arr[j] = tmp
+            }
+        }
+
+        function shellSort(arr){
+            if(!Array.isArray(arr) || arr.length <= 1) return
+            let gap = Math.floor(arr.length / 2)
+            while(gap > 0){
+                for(let i = gap; i < arr.length; i++){
+                    let tmp = arr[i] , k = i
+                    while(tmp < arr[k-gap] && k - gap >= 0){
+                        arr[k] = arr[k-gap]
+                        k = k - gap
+                    }
+                    arr[k] = tmp
+                }
+                gap = Math.floor(gap / 2)
+            }
+        }
+
+        function mergeSort(arr){
+            if(!Array.isArray(arr) || arr.length == 0) return
+            if(arr.length == 1) return arr
+            let midIndex = Math.floor(arr.length / 2),
+                leftArr = arr.slice(0,midIndex),
+                rightArr = arr.slice(midIndex,arr.length)
+            return merge(mergeSort(leftArr),mergeSort(rightArr))
+        }
+        function merge(left,right){
+            console.log(1)
+            let leftLength = left.length,
+                rightLength = right.length,
+                l = 0,
+                r = 0,
+                result = []
+            while(l < leftLength && r < rightLength){
+                if(left[l] < right[r]){
+                    result.push(left[l])
+                    l++
+                }else{
+                    result.push(right[r])
+                    r++
+                }
+            }
+            while(r < rightLength){
+                result.push(right[r])
+                r++
+            }
+            while(l < leftLength){
+                result.push(left[l])
+                l++
+            }
+            return result
+        }
+
+        // 快速排序
+        function quickSort(arr){
+            quickRec(0,arr.length-1)
+        }
+        function quickRec(start,end){
+            if(end <= start) return
+            let position = getPosition(start,end),
+                i = start,
+                j = end-1
+            while( i < j){
+                while(arr[++i] < position){
+                    
+                }
+                while(arr[--j] > position){
+                    
+                }
+                if(i < j){
+                    [arr[i],arr[j]] = [arr[j],arr[i]]
+                }else{
+                    break
+                }
+            }
+            [arr[i],arr[end-1]] = [arr[end-1],arr[i]]
+            quickRec(start,i-1)
+            quickRec(i+1,end)
+        }
+        function getPosition(start,end){
+            let midIndex = Math.floor((start+end) / 2)
+            if(arr[start] > arr[midIndex]){
+                [arr[start],arr[midIndex]] = [arr[midIndex],arr[start]]
+            }
+            if(arr[midIndex] > arr[end]){
+                [arr[midIndex],arr[end]] = [arr[end],arr[midIndex]]
+            }
+            if(arr[start] > arr[end]){
+                [arr[start],arr[end]] = [arr[end],arr[start]]
+            }
+            [arr[midIndex],arr[end-1]] = [arr[end-1],arr[midIndex]]
+            return arr[end-1]
+        }
+
+        let arr = [24,3,6,10,9,8,56,100]
+        // bubbleSort(arr)
+        // betterBubbleSort(arr)
+        // selectSort(arr)
+        // insertSort(arr)
+        // shellSort(arr)
+        // alert(mergeSort(arr))
+        quickSort(arr)
+        alert(arr)
+    </script>
+</body>
+</html>
