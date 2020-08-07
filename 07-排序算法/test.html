@@ -7,11 +7,35 @@
 </head>
 <body>
     <script>
-        let set = new Set(['1,2'])
-        let offsetX = 1,
-            offsetY = 2
-        set.add(`[${offsetX},${offsetY}]`)
-        console.log(set)
+        function bubble(arr){
+            if(!Array.isArray(arr) || arr.length <= 1) return
+            for(let j=0; j<arr.length; j++){
+                for(let i=j; i<arr.length-1; i++){
+                    if(arr[i] > arr[i+1]){
+                        [arr[i],arr[i+1]] = [arr[i+1],arr[i]]
+                    }
+                }
+            }
+        }
+        function betterBubble(arr){
+            if(!Array.isArray(arr) || arr.length <= 1) return
+            let lastIndex = arr.length - 1
+            while(lastIndex > 0){
+                let flag = true , k = lastIndex
+                for(let i=0; i<k; i++){
+                    if(arr[i] > arr[i+1]){
+                        flag = false;
+                        [arr[i],arr[i+1]] = [arr[i+1],arr[i]];
+                        lastIndex = i
+                    }
+                }
+                if(flag) break;
+            }
+        }
+        let arr = [24,3,6,10,9,8,56,100]
+        // bubble(arr)
+        betterBubble(arr)
+        alert(arr)
     </script>
 </body>
 </html>
