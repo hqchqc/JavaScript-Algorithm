@@ -26,11 +26,23 @@ function selectSort(arr){
         }
         [arr[minIndex],arr[j]] = [arr[j],arr[minIndex]]
     }
+}
+
+function insertSort(arr){
+    if(!Array.isArray(arr) || arr.length <= 1) return
     
-    
+    for(let i=1; i<arr.length; i++){
+        let tmp = arr[i] , j = i;
+        while(tmp < arr[j-1] && j - 1 >= 0){
+            arr[j] = arr[j-1];
+            j--;
+        }
+        arr[j] = tmp
+    }
 }
 
 let arr = [12,2,3,41,242,1,2]
 // betterBubble(arr)
-selectSort(arr)
+// selectSort(arr)
+insertSort(arr)
 console.log(arr)
