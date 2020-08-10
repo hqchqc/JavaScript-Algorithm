@@ -43,6 +43,6 @@ function insertSort(arr){
 
 let arr = [12,2,3,41,242,1,2]
 // betterBubble(arr)
-selectSort(arr)
+// selectSort(arr)
 insertSort(arr)
 console.log(arr)
