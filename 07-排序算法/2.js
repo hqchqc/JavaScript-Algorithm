@@ -178,8 +178,24 @@ console.log(test)
 
 let ab = [12,1,3,23,42,234]
 
-// ab.push(1)
+ab.push(1)
 // ab.pop()
 // ab.shift()
-ab.unshift(12)
-console.log(ab)
+// ab.unshift()
+console.log(ab);
+console.log(ab.length);
+console.log(ab.shift())
+
+let home = [1,2,3,4,5,5];
+home.forEach((value,index)=>{
+    home[index] = value * value;
+});
+
+let homes = home.map((value,index) => {
+    return value * value
+})
+console.log(home);
+console.log(homes);
+
+console.log('-----------------------------------------------')
+
