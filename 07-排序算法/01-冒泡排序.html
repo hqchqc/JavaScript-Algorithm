@@ -13,7 +13,9 @@
                 return
             }
             let length = arr.length - 1
+            // 外层循环表示确定最后一个元素已经排好序
             for(let j = length; j >= 0; j--){
+                // 内层循环表示从 i 到 j 元素 j元素是已经排好序了
                 for(let i = 0; i < j; i++){
                     if(arr[i] > arr[i+1]){
                         [arr[i] , arr[i+1]] = [arr[i+1], arr[i]]
