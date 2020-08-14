@@ -114,16 +114,15 @@ function merge(left,right){
 }
 
 function quickSort(arr){
-    quickRec(0,arr.length - 1)
+    quickRec(0,arr.length - 1);
 }
 function quickRec(start,end){
     if(end <= start) return
+
     let position = getPosition(start,end),
         left = start,
         right = end - 1;
-    console.log(position);
     while(left < right){
-        
         while(arr[++left] < position){}
         while(arr[--right] > position){}
         if(left < right){
@@ -132,26 +131,26 @@ function quickRec(start,end){
             break
         }
     }
-    [arr[left],arr[end-1]] = [arr[end-1],arr[right]];
-    quickRec(start,left-1)
-    quickRec(left+1,end)
+    [arr[left],arr[end-1]] = [arr[end-1],arr[left]];
+    quickRec(start,left-1);
+    quickRec(left+1,end);
 }
 function getPosition(start,end){
     let midIndex = Math.floor((start + end) / 2);
     if(arr[start] > arr[midIndex]){
-        [arr[start],arr[midIndex]] = [arr[midIndex],arr[start]]
+        [arr[start],arr[midIndex]] = [arr[midIndex],arr[start]];
     }
     if(arr[midIndex] > arr[end]){
-        [arr[midIndex],arr[end]] = [arr[end],arr[midIndex]]
+        [arr[midIndex],arr[end]] = [arr[end],arr[midIndex]];
     }
     if(arr[start] > arr[end]){
-        [arr[start] , arr[end]] = [arr[end],arr[start]]
+        [arr[start] , arr[end]] = [arr[end],arr[start]];
     }
-    [arr[midIndex],arr[end-1]] = [arr[end-1],arr[midIndex]]
+    [arr[midIndex],arr[end-1]] = [arr[end-1],arr[midIndex]];
     return arr[end - 1]
 }
 
-let arr = [12,3,42,32,34,2,3,43,234,6];
+let arr = [24,3,6,10,9,8,56,100]
 
 // bubbleSort(arr)
 // betterSort(arr)
